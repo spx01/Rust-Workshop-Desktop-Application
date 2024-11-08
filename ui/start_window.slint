@@ -1,0 +1,46 @@
+import { Button, TextEdit, GridBox } from "std-widgets.slint";
+
+export component AppWindow inherits Window {
+    title: "Calculator";
+    in-out property<string> textarea: ""; // Proprietate pentru afișarea textului în zona de text
+    callback add_to_text_area(string, string); // Callback pentru adăugarea textului în zona de text
+
+    GridLayout {
+
+        // TASK: Creează un TextEdit pentru zona de text a calculatorului.
+        // HINT: Setează lățimea la 600px și înălțimea la 200px.
+        text_box := TextEdit {
+            // TODO
+            text: textarea; // Leagă `textarea` la textul afișat în acest `TextEdit`
+        }
+
+        // TASK: Adaugă primul rând de butoane pentru cifre și operatori într-un nou GridLayout.
+        // HINT: Fiecare buton va fi într-un `Rectangle` pentru a avea dimensiuni și fundal personalizate. Folosește `Button` pentru acțiune.
+
+        GridLayout {
+
+            row: 1;
+
+            // TASK: Creează butonul pentru cifra "1".
+            // HINT: Folosește un `Rectangle` pentru dimensiuni și un `Text` pentru afișarea cifrei. Folosește `Button` pentru a înregistra acțiunea.
+            Rectangle {
+               // TODO
+                Button {
+                   // TODO
+
+                   // Callback pentru adăugarea cifrei "1" în zona de text și actualizarea acesteia
+                    clicked => { add_to_text_area(text-box.text, "1") }
+                }
+            }
+
+            // TASK: Creează butonul pentru cifra "2", urmând aceleași instrucțiuni ca pentru butonul "1".
+
+            // TASK: Creează butonul pentru cifra "3".
+
+            // TASK: Creează butonul pentru operatorul "+".
+        }
+
+        // TASK: Adaugă alte rânduri pentru cifrele și operatorii rămași, similar cu primul rând.
+        // HINT: Creează noi `GridLayout` și adaugă butoane pentru cifrele "4" până la "9", operatorii "*", "-", "/", ".", "Clear" și "=".
+    }
+}
