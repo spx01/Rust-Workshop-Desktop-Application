@@ -3,7 +3,7 @@ use std::f64::NAN;
 use lazy_static::lazy_static;
 use regex::Regex;
 use slint::{include_modules, SharedString};
-use evalexpr::{eval, eval_float};
+use evalexpr::{eval, eval_float, eval_int};
 
 include_modules!();
 
@@ -50,7 +50,7 @@ fn main() -> Result<(), slint::PlatformError> {
 // Dacă expresia este validă, apelează funcția `compute`. Dacă nu, returnează un mesaj de eroare, cum ar fi "Invalid Expression".
 fn evaluate(input: &str) -> String {
     match compute(input) {
-        Some(result) => format!("{result}"),
+        Some(result) => format!("{result:.2}"),
         None => "Invalid Expression".to_string(),
     }
 }
@@ -60,13 +60,10 @@ fn evaluate(input: &str) -> String {
 // Convertește fiecare parte în `f64` și returnează rezultatul în funcție de simbol.
 fn compute(input: &str) -> Option<f64> {
     println!("evaluating: {}", input);
-    eval(input.trim()).ok().and_then(|result| {
-        if let Ok(x) = result.as_float() {
-            return Some(x)
+    match eval_float(input.trim()) {
+        Err(_) => {
+            eval_int(input.trim()).map(|x| x as f64).ok()
         }
-        if let Ok(x) = result.as_int() {
-            return Some(x as f64)
-        }
-        None
-    })
+        Ok(x) => Some(x),
+    }
 }
