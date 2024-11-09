@@ -1,46 +1,117 @@
-import { Button, TextEdit, GridBox } from "std-widgets.slint";
+import { Button, TextEdit, GridBox, VerticalBox, HorizontalBox } from "std-widgets.slint";
+
+export global Logic {
+    callback add_to_text_area(string, string);
+    in-out property <string> textarea: "test"; // Proprietate pentru afișarea textului în zona de text
+}
+
+component ButtonRect inherits Rectangle {
+    in property <string> label;
+    min-width: 100px;
+    Button {
+        width: 100%;
+        min-height: 100px;
+        text: "";
+        clicked => {
+            Logic.add_to_text_area(Logic.textarea, label);
+        }
+    }
+    Text {
+        text: label;
+        font-size: 20px;
+        font-weight: 800;
+        color: white;
+    }
+}
 
 export component AppWindow inherits Window {
     title: "Calculator";
-    in-out property<string> textarea: ""; // Proprietate pentru afișarea textului în zona de text
-    callback add_to_text_area(string, string); // Callback pentru adăugarea textului în zona de text
 
     GridLayout {
-
+        spacing-horizontal: 5px;
+        spacing-vertical: 5px;
         // TASK: Creează un TextEdit pentru zona de text a calculatorului.
         // HINT: Setează lățimea la 600px și înălțimea la 200px.
-        text_box := TextEdit {
-            // TODO
-            text: textarea; // Leagă `textarea` la textul afișat în acest `TextEdit`
+        Row {
+            VerticalLayout {
+                colspan: 5;
+                text_box := TextEdit {
+                    horizontal-alignment: right;
+                    // width: 600px;
+                    height: 8rem;
+                    text: Logic.textarea; // Leagă textarea la textul afișat în acest TextEdit
+                    font-size: 4rem;
+                }
+        }
         }
 
         // TASK: Adaugă primul rând de butoane pentru cifre și operatori într-un nou GridLayout.
-        // HINT: Fiecare buton va fi într-un `Rectangle` pentru a avea dimensiuni și fundal personalizate. Folosește `Button` pentru acțiune.
+        // HINT: Fiecare buton va fi într-un Rectangle pentru a avea dimensiuni și fundal personalizate. Folosește Button pentru acțiune.
 
-        GridLayout {
-
-            row: 1;
-
-            // TASK: Creează butonul pentru cifra "1".
-            // HINT: Folosește un `Rectangle` pentru dimensiuni și un `Text` pentru afișarea cifrei. Folosește `Button` pentru a înregistra acțiunea.
-            Rectangle {
-               // TODO
-                Button {
-                   // TODO
-
-                   // Callback pentru adăugarea cifrei "1" în zona de text și actualizarea acesteia
-                    clicked => { add_to_text_area(text-box.text, "1") }
-                }
+        Row {
+            ButtonRect {
+                label: "1";
             }
-
-            // TASK: Creează butonul pentru cifra "2", urmând aceleași instrucțiuni ca pentru butonul "1".
-
-            // TASK: Creează butonul pentru cifra "3".
-
-            // TASK: Creează butonul pentru operatorul "+".
+            ButtonRect {
+                label: "2";
+            }
+            ButtonRect {
+                label: "3";
+            }
+            ButtonRect {
+                label: "+";
+            }
+            ButtonRect {
+                label: "-";
+            }
         }
 
+        Row {
+            ButtonRect {
+                label: "4";
+            }
+            ButtonRect {
+                label: "5";
+            }
+            ButtonRect {
+                label: "6";
+            }
+            ButtonRect {
+                label: "*";
+            }
+            ButtonRect {
+                label: "/";
+            }
+        }
+        Row {
+            ButtonRect {
+                label: "7";
+            }
+            ButtonRect {
+                label: "8";
+            }
+            ButtonRect {
+                label: "9";
+            }
+            ButtonRect {
+                label: ".";
+            }
+            ButtonRect {
+                label: "C";
+            }
+        }
+        Row {
+            ButtonRect {
+                label: "0";
+                colspan: 3;
+            }
+            ButtonRect {
+                col: 3;
+                label: "=";
+                colspan: 2;
+            }
+        }
         // TASK: Adaugă alte rânduri pentru cifrele și operatorii rămași, similar cu primul rând.
-        // HINT: Creează noi `GridLayout` și adaugă butoane pentru cifrele "4" până la "9", operatorii "*", "-", "/", ".", "Clear" și "=".
+        // HINT: Creează noi GridLayout și adaugă butoane pentru cifrele "4" până la "9", operatorii "*", "-", "/", ".", "Clear" și "=".
     }
 }
